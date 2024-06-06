@@ -19,11 +19,30 @@ require("lazy").setup({
     { import = "plugins"}
 	},
 
-	defaults = { lazy = false, version = false },
+	defaults = {
+    lazy = true,
+    version = false,
+    autocmds = true,
+    keymaps = false
+  },
 
-	install = { colorscheme = { "tokyonight", "habamax" } },
+	checker = { enabled = true, },
 
-	checker = { enabled = true },
+  change_detection = {
+    enable = false,
+    notify = false,
+  },
+
+	install = {
+    missing = true,
+    colorscheme = { "tokyonight", "habamax" }
+  },
+
+  ui = {
+    size = { width = 0.75, height = 0.75 },
+    border = "rounded",
+    title = "lazy.nvim",
+  },
 
 	performance = {
 		rtp = {
