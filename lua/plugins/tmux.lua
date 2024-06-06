@@ -1,23 +1,31 @@
 return {
   {
-    "christoomey/vim-tmux-navigator",
+    "alexghergh/nvim-tmux-navigation",
     enabled = true,
-    event =  "VeryLazy",
+    event = "VeryLazy",
 
-    -- NOTE: These keybinds the defaults for vim-tmux-navigator.
-    -- They are set here to override LazyVim defaults. 
-    keys = {
-      {"<c-h>", "<cmd>TmuxNavigateLeft<cr>", "Navigate Window Left"},
-      {"<c-j>", "<cmd>TmuxNavigateDown<cr>", "Navigate Window Down"},
-      {"<c-k>", "<cmd>TmuxNavigateUp<cr>", "Navigate Window Up"},
-      {"<c-l>", "<cmd>TmuxNavigateRight<cr>", "Navigate Window Right"},
-    },
+    opts = function(_, opts)
+      opts.disable_when_zoomed = true
+      opts.keybindings = {
+        left = '<c-h>',
+        down = '<c-j>',
+        up = '<c-k>',
+        right = '<c-l>',
+        last_active = '<c-\\>',
+        next='<c-]>',
+      }
+    end,
+
+    config = function(_, opts)
+      require("nvim-tmux-navigation").setup(opts)
+    end,
   },
 
   {
-    "christoomey/vim-tmux-runner",
-    enabled = os.getenv("TMUX") ~= nil,
+    "Traap/vim-tmux-runner",
+    enabled = true and os.getenv("TMUX") ~= nil,
     event = "VeryLazy",
+
     config = function()
       _G.VtrOrientation = "h"
       _G.VtrPercentage = 50
