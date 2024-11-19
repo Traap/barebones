@@ -1,3 +1,9 @@
+-- {{{ Take control of my leader keys.
+
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+-- ------------------------------------------------------------------------- }}}
 -- {{{ Bootstraap lazy.nvim when needed.
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -82,4 +88,13 @@ require("lazy").setup({
 	},
 
 })
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Traap's configuration.
+
+vim.cmd.colorscheme("tokyonight-night")
+require("traap.config.options")
+require("traap.config.autocmds")
+require("traap.config.keymaps")
+
 -- ------------------------------------------------------------------------- }}}
