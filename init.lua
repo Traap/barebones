@@ -48,21 +48,17 @@ require("lazy").setup({
 	},
 
 	defaults = {
-    lazy = true,
+    lazy = false,
     version = false,
-    autocmds = true,
-    keymaps = true
   },
 
-	checker = { enabled = true, },
-
-  change_detection = {
-    enable = false,
-    notify = false,
+	checker = {
+    enabled = true,
+    notify = false
   },
+
 
 	install = {
-    missing = true,
     colorscheme = { "tokyonight", "habamax" }
   },
 
@@ -95,6 +91,6 @@ require("lazy").setup({
 vim.cmd.colorscheme("tokyonight-night")
 require("traap.config.options")
 require("traap.config.autocmds")
--- require("traap.config.keymaps")
+require("traap.config.keymaps")
 
 -- ------------------------------------------------------------------------- }}}
