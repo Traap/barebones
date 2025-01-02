@@ -122,7 +122,7 @@ require("lazy").setup({
 })
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Source file or lines 
+-- {{{ Source file or lines
 
 vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>")
 vim.keymap.set("n", "<leader>x", "<cmd>.lua<CR>")
@@ -130,7 +130,7 @@ vim.keymap.set("v", "<leader>x", "<cmd>lua<CR>")
 vim.keymap.set("n", "<leader>l", "<cmd>Lazy<CR>")
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Fole movements
+-- {{{ Fold movements
 
 -- Author: Karl Yngve Lervåg
 --    See: https://github.com/lervag/dotnvim
@@ -156,7 +156,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Colorschmes 
+-- {{{ Colorschmes
 
 vim.cmd.colorscheme("tokyonight-night")
 

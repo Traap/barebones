@@ -2,11 +2,7 @@ return {
   "stevearc/oil.nvim",
   cmd = "Oil",
   enabled = true,
-
-  keys = {
-    {"<c-n>", "<cmd>Oil<cr>", "Open parent directory"},
-    {"<leader>nf", "<cmd>Oils<cr>", "Focus file"},
-  },
+  keys = { { "<leader>no", "<cmd>Oil --float<cr>", desc = "Oil buffer" } },
 
   opts = function(_, opts)
 
