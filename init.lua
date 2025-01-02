@@ -1,54 +1,104 @@
--- {{{ Leader Keys and Core Settings
+-- {{{ Take control of my leader keys.
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.o.foldlevel = 0
-vim.o.foldmethod = "marker"
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Bootstrap lazy.nvim
+-- {{{ Quality of Life
+
+vim.opt.clipboard = "unnamedplus"
+vim.opt.colorcolumn = "+1"
+vim.opt.cursorline = false
+vim.opt.expandtab = true
+vim.opt.fillchars = { foldclose = " ", fold = " ", eob = " " }
+vim.opt.foldlevel = 0
+vim.opt.foldmethod = "marker"
+vim.opt.listchars = { eol = "↲", tab = "▸ ", trail = "·" }
+vim.opt.number = true
+vim.opt.numberwidth = 3
+vim.opt.relativenumber = true
+vim.opt.shiftwidth = 2
+vim.opt.showbreak = "↪"
+vim.opt.signcolumn = "yes"
+vim.opt.smartcase = true
+vim.opt.smartindent = true
+vim.opt.softtabstop = 2
+vim.opt.swapfile = false
+vim.opt.tabstop = 2
+vim.opt.termguicolors = true
+vim.opt.textwidth = 80
+vim.opt.timeout = true
+vim.opt.timeoutlen = 270
+vim.opt.ttimeout = true
+vim.opt.ttimeoutlen = 5
+vim.opt.updatetime = 500
+vim.opt.virtualedit = { "block" }
+vim.opt.wrap = false
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Bootstraap lazy.nvim when needed.
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system(
-    { "git",
-      "clone",
-      "--filter=blob:none",
-      "--branch=stable",
-      "https://github.com/folke/lazy.nvim.git",
-      lazypath
-    })
+local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local out = vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    lazyrepo,
+    lazypath,
+  })
+
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 -- ------------------------------------------------------------------------- }}}
--- {{{ Load lazy.nvim and Setup Plugins
+-- {{{ Setup lazy.nvim
+
+--     https://lazy.folke.io/spec
+
+local file_types = {"c", "cpp", "rb", "sql", "lua"}
 
 require("lazy").setup({
   spec = {
     {
       'nvim-treesitter/nvim-treesitter',
       build = ':TSUpdate',
-      event = { "BufReadPost", "BufNewFile" },
+      ft = file_types,
       opts = { highlight = { enable = true } },
     },
     {
       'williamboman/mason.nvim',
       build = ':MasonUpdate',
+      ft = file_types,
       config = true,
     },
     {
       'williamboman/mason-lspconfig.nvim',
       dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
+      ft = file_types,
       config = true,
     },
     {
       'neovim/nvim-lspconfig',
-      event = { "BufReadPost", "BufNewFile" },
+      ft = file_types,
     },
     {
       'mfussenegger/nvim-dap',
-      event = { "BufReadPost", "BufNewFile" },
+      ft = file_types,
     },
   },
 
@@ -78,33 +128,13 @@ require("lazy").setup({
     reset_packpath = true,
     rtp = {
       disabled_plugins = {
-        "2html_plugin",
-        "bugreport",
-        "compiler",
-        "ftplugin",
-        "getscript",
-        "getscriptPlugin",
-        "gzip",
-        "logipat",
+				"gzip",
         "matchit",
-        "netrw",
-        "netrwFileHandlers",
-        "netrwPlugin",
-        "netrwSettings",
-        "optwin",
-        "rplugin",
-        "rrhelper",
-        "spellfile_plugin",
-        "synmenu",
-        "syntax",
-        "tar",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "vimball",
-        "vimballPlugin",
-        "zip",
-        "zipPlugin",
+        "matchparen",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
       },
     },
   },
@@ -114,6 +144,40 @@ require("lazy").setup({
     border = "rounded",
     title = "lazy.nvim",
   },
+})
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Source file or lines
+
+vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>")
+vim.keymap.set("n", "<leader>x", "<cmd>.lua<CR>")
+vim.keymap.set("v", "<leader>x", "<cmd>lua<CR>")
+vim.keymap.set("n", "<leader>l", "<cmd>Lazy<CR>")
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Fold movements
+
+-- Author: Karl Yngve Lervåg
+--    See: https://github.com/lervag/dotnvim
+
+-- Close all fold except the current one.
+vim.keymap.set("n", "zv", "zMzvzz", {desc='Close all folds except current'})
+
+-- Close current fold when open. Always open next fold.
+vim.keymap.set("n", "zj", "zcjzOzz", {desc='Close fold & open next one'})
+
+-- Close current fold when open. Always open previous fold.
+vim.keymap.set("n", "zk", "zckzOzz", {desc='Close fold & open previous one'})
+
+-- ------------------------------------------------------------------------- }}}
+-- {{{ Highlight when yanking (copying) text
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('traap-highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
 })
 
 -- ------------------------------------------------------------------------- }}}
