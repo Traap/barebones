@@ -5,6 +5,7 @@ else
   return {
     { "RRethy/vim-illuminate", enabled = false },
     { "akinsho/bufferline.nvim", enabled = false },
+    { "folke/flash.nvim", enabled = false, },
     { "nvim-treesitter/nvim-treesitter-context", enabled = false },
     { "rcarriga/nvim-notify", enabled = false },
     {
