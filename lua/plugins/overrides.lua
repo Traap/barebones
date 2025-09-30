@@ -1,11 +1,3 @@
-## Notes
-### Drop any fully-configured LazyNvim compatible plugin here to experiment with LazyNvim and the new plugin.  This is designed to help you understand the plugin and its dependencies in isolation.
-
-
-### overrides.lua 
-How I override default LazyVim configuration items.
-
-```lua
 if not pcall(require, "lazyvim") then
   return {}
 else
@@ -27,4 +19,3 @@ else
     { "folke/which-key.nvim", enabled = true, opts = { plugins = { spelling = true }, preset = "modern" } },
   }
 end
-```
